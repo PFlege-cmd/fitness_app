@@ -1,0 +1,56 @@
+<section fxFlexAlign>
+  <form fxLayout="column"
+        fxLayoutGap="10px"
+        fxLayoutAlign="center center"
+        #ng_form="ngForm" (ngSubmit)="onSubmit(ng_form)">
+    <!-- why double 'center'? Centers around the two main axes -->
+    <mat-form-field>
+      <input
+        type="email"
+        matInput
+        placeholder="your email"
+        ngModel
+        name="email"
+        required
+        email
+        #emailInput="ngModel">
+      <mat-error *ngIf="emailInput.hasError('required')">Email is required</mat-error>
+      <mat-error *ngIf="!emailInput.hasError('required')">Email-format not valid</mat-error>
+    </mat-form-field>
+    <mat-form-field>
+      <input
+        type="password"
+        matInput
+        placeholder="your password"
+        ngModel
+        name="password"
+        required
+        minlength="6"
+        #pwInput="ngModel">
+      <mat-hint>{{pwInput.value?.length}} / 6 </mat-hint>
+      <mat-error *ngIf="pwInput.hasError('minlength')">Password must not be less than 6 characters</mat-error>
+      <mat-error *ngIf="pwInput.hasError('required')">Password is required</mat-error>
+    </mat-form-field>
+    <mat-form-field>
+      <input
+        matInput
+        [matDatepicker]="picker"
+        placeholder="Your birthdate"
+        #birthday="ngModel"
+        [max]="maxDate"
+        required
+        ngModel name="birthdate">
+      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+      <mat-datepicker #picker></mat-datepicker>
+      <mat-error *ngIf="birthday.hasError('required')">Please enter your date of birth</mat-error>
+    </mat-form-field>
+    <mat-checkbox
+      labelPosition="before"
+      required
+      ngModel
+      name="agreed"
+      #agreement="ngModel"
+    >Agree to Terms and Conditions</mat-checkbox>
+    <button type="submit" mat-raised-button color="primary" [disabled]="ng_form.invalid">Submit</button>
+  </form>
+</section>
